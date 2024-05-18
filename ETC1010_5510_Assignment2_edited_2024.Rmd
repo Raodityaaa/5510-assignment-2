@@ -1,0 +1,100 @@
+---
+title: "ETC1010-5510: Introduction to Data Analysis"
+author: "Please write your name"
+date: "Assignment 2"
+output:
+   html_document:
+    css: CSSBackground.css
+
+---
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  eval = TRUE,
+  message = FALSE,  # Change this to FALSE before you submit your assignment
+  warning = FALSE,  # Change this to FALSE before you submit your assignment
+  error = FALSE,    # Change this to FALSE before you submit your assignment
+  out.width = "70%",
+  fig.width = 8, 
+  fig.height = 6,
+  fig.retina = 3)
+set.seed(6)
+```
+
+```{r libraries, echo = FALSE}
+# Libraries required for the analysis (you can add more if you want to)
+library(tidyverse)
+library(readr)
+library(lubridate)
+library(tsibble)
+library(colorspace) 
+library(ggrepel) 
+library(ggResidpanel)
+library(rpart)
+library(rpart.plot)
+library(visdat)
+library(plotly)
+library(ggResidpanel)
+```
+
+
+In this assignment, we are going to study test scores from the The Programme for International Student Assessment (PISA) scheme, which tests 15-year-old students across all states in Australia. 
+You can find the data sets and a code book for the assignment in the *Data* folder. Broadly speaking, PISA measures scholastic ability across three categories: science, reading and math. 
+
+The goal of this analysis is to understand if differences exist between PISA testing scores across various dimensions, such as income, school type, extra-curricular activities and gender. 
+
+
+**Please ensure that the report knits properly into html and all the R code and R outputs are visible in the final knitted report.** **You will need to save your rendered html document into a pdf file (you can use your internet browser to print your html file into a pdf file) and upload that pdf file into Moodle for submission.**
+  
+  **This is an individual assignment and you must use R code to answer all the questions. Make sure that you have your messages and warnings turned off before you submit the assessment (see lines 15-17 of this Rmd file) and echo = FALSE set for the R code chunk where you load your libraries.**
+  
+  
+  
+  
+## Question 1: Read in the pisa data set (1pt) and show the last 5 rows and last three variables in the data frame (1pt).
+```{r}
+pisa_data <- read.csv("data/pisa.csv")
+
+# Display the last 5 rows and last 3 variables
+tail(pisa_data[, (ncol(pisa_data)-2):ncol(pisa_data)], 5)
+```
+
+
+
+## Question 2: Calculate the 75th quantile for `math`, `science` and `read` score across states. (2pts) Create a table where you display the results (1pt). Which state has the highest score in `read`. (2pts)
+
+## Question 3: For female students born after or on 2000, which type of school had the highest average performce in `read` (3pts).
+
+
+## Question 4: For male and female students born on or after 2000, across the different types of schools, whose scores were more variable in reading? (3pts). Math (1pt)?. Science (1pt)? Place all results in a single table to receive full marks. 
+  
+
+## Question 5: For the states of VIC, NSW, and QLD, using `geom_histogram` plot the distribution of marks in `read` by gender using a faceted plot with shading to capture school type (2pt). Which combination of states/schools do female students peform worst in (1pt)? Are the results similar for `science` (1pt)? 
+  
+
+## Question 6: Repeat the above exercise using `geom_density` (1pt). Which set of results, those for `geom_density` or `geom_histogram` allows one to more accurately compare across results (3pt)? Why?
+
+  
+## Question 7: First, create a data frame called _pisa_filtered_ that excludes observations with missing values **among any variable** (2pt). Then, calculate a new variable called _tot_score_ that is the sum of the math/science/reading scores and add this to the data frame _pisa_filtered_ (1pt); in addition, calculate a new variable _tot_time_ as the sum of the math_time/read_time/science_time and add this new variable to the data frame _pisa_filtered_ (1pt). Using a `geom_point()` describe the relationship between _tot_time_ (x-axis) and _tot_score_ (y-axis). (2pts) 
+  
+
+## Question 8. The Australian PISA test is administered in English. It is believed that, on average, students who speak languages other than english at their primary residence may be disadvantaged by having to take the test in English. The variable `language` records the language most often spoken at students homes, with language code 313 referring to `English`. On average, do students who do not speak English in their home perform worse than native english speakers in terms of total scores? Does your answer remain the same when we look at students who perform in the lowest 25th quantile? 
+
+ 
+
+## Question 9. Using `facet_wrap()`, plot the total scores using densities for both males and females. What do the results tell us about the usefulness of looking at average scores? 
+
+
+## Question 10. Previous analysis has so yielded several categorical variables that may influence test scores, such as _gender_, _music_instr_, and what type of school the student is from, _schtype_. However, there are many other numerical variables that we may have missed. As a first step in understanding these variables, we can cluster the data to try and see if any patterns emerge beyond those already seen. Use k-means clustering on the following variables with $k=5$ clusters: _anxtest_, _motivat_, _tot_time_, and _tot_score_.(3pt) Report the number of elements in each cluster (2pt).
+  
+
+
+## Question 11. To understand the clusters, produce a table that displays the median value of each variable in the cluster, and arrange the values from largest to smallest by _tot_score_ (2pt). Describe the relationship between the clusters and the variables _tot_score_, _anxtest_, _motivat_; i.e., what do you notice about the similarity between these variables and the assigned cluster? (3pt) 
+
+  
+## Question 12. Plot the relationship between `tot_scores` and color the plot by cluster. (3pt). Is there a meaningful difference between the scores across the different clusters? (1pt). What do you think this finding says about the importance of motivational factors in overall test scores? (2pt)
+
+
+
+
+##  Question 14 (ETC5510): Do the findings described in question 11 remain true if we instead analyse the relationship between _read_ and cluster assignment? (5pt)
