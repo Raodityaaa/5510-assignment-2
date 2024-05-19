@@ -64,7 +64,7 @@ tail(pisa_data[, (ncol(pisa_data)-2):ncol(pisa_data)], 5)
 ## Question 2: Calculate the 75th quantile for `math`, `science` and `read` score across states. (2pts) Create a table where you display the results (1pt). Which state has the highest score in `read`. (2pts)
 ```{r}
 # Calculate the 75th quantile for math, science, and read scores across states
-quantiles_by_state <- pisa_data %>%
+quantiles_by_state <- pisa_data |>
   group_by(state) |>
   summarise(
     math_75th = quantile(math, 0.75, na.rm = TRUE),
@@ -75,7 +75,7 @@ quantiles_by_state <- pisa_data %>%
 print(quantiles_by_state)
 
 # State with the highest 75th quantile score in read
-state_highest <- quantiles_by_state %>%
+state_highest_read <- quantiles_by_state |>
   filter(read_75th == max(read_75th)) %>%
   select(state, read_75th)
 
